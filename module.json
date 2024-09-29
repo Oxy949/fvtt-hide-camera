@@ -1,6 +1,6 @@
 {
   "id": "fvtt-hide-camera",
-  "title": "Hide Camera",
+  "title": "Hide Player Camera",
   "description": "",
   "version": "#{VERSION}#",
   "library": "false",
