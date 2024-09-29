@@ -2,7 +2,7 @@
 
 # Hide Player Camera
 
-The module automatically expand chat messages containing dice roll results and (optionally) hide specific elements within those messages.
+This module for Foundry VTT allows Game Masters to automatically hide the cameras of specified users in the audio/video chat. It’s particularly useful for live streams or recorded sessions where non-player users, such as OBS or virtual cameras, should not be displayed.
 
 
 ## How to install 
