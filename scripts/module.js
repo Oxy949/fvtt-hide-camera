@@ -1,22 +1,23 @@
 Hooks.on("ready", () => {
     // Получаем значение из настроек модуля
-    const playerNameToHide = game.settings.get("fvtt-hide-camera", "playerName");
+    const playersIDsToHide = game.settings.get("fvtt-hide-camera", "playerUUIDs");
 
     // Функция для скрытия камеры указанного пользователя
     function hidePlayerCamera() {
-        if (!playerNameToHide) return; // Если имя не указано, ничего не делать
+        if (!playersIDsToHide) return; // Если имя не указано, ничего не делать
+
+        const playersUUIDsArray = playersIDsToHide.split(',').map(name => name.trim());
 
         // Ищем всех пользователей
         game.users.forEach(user => {
-        if (user.name === playerNameToHide) {
-            // Ищем элементы видео пользователя
-            const videoElement = document.querySelector(`[data-user="${user.id}"] camera-view`);
-            if (videoElement) {
-            // Применяем стиль, чтобы скрыть элемент
-            videoElement.style.display = "none";
-            console.log(`Камера пользователя ${user.name} скрыта.`);
+            if (playersUUIDsArray.includes(user.uuid)) {
+                // Ищем элементы видео пользователя
+                const cameraElement = document.querySelector(`.camera-view[data-user="${user.id}"]`);
+                if (cameraElement) {
+                    // Применяем стиль, чтобы скрыть элемент
+                    cameraElement.style.display = "none";
+                }
             }
-        }
         });
     }
 
@@ -29,12 +30,13 @@ Hooks.on("ready", () => {
 
 // Регистрируем настройку модуля
 Hooks.once("init", () => {
-    game.settings.register("fvtt-hide-camera", "playerName", {
-        name: "Player Name to Hide",
-        hint: "Specify the exact name of the player whose camera should be hidden.",
+    game.settings.register("fvtt-hide-camera", "playerUUIDs", {
+        name: "Players UUID's to Hide",
+        hint: "Specify the UUID's of the players whose cameras should be hidden, separated by commas without space.",
         scope: "world",
         config: true,
         type: String,
-        default: ""
+        default: "",
+        requiresReload: true
     });
 });
