@@ -10,7 +10,8 @@ This module for Foundry VTT allows Game Masters to automatically hide the camera
 1. Copy `https://github.com/Oxy949/fvtt-hide-camera/releases/latest/download/module.json` 
 2. Paste it in your Foundry VTT, wait for install
 3. Enable the module in your world
-4. Enjoy!
+4. Enter the UUIDs of the users whose cameras you want to hide in the module setting, separated by commas. You can easily copy a player's UUID from their settings window, which can be accessed via the *Players List*.
+5. Enjoy!
 
 ## Module settings
 
