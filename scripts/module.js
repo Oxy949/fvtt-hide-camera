@@ -16,6 +16,13 @@ Hooks.on("ready", () => {
                 if (cameraElement) {
                     // Применяем стиль, чтобы скрыть элемент
                     cameraElement.style.display = "none";
+
+                    const popoutButton = cameraElement.querySelector('.av-control.toggle[data-action="toggle-popout"]');
+                    if (popoutButton) {
+                        if (!cameraElement.classList.contains('camera-box-popout')) {
+                            popoutButton.click(); // Эмулируем клик по кнопке "отделить в окно"
+                        }
+                    }
                 }
             }
         });
