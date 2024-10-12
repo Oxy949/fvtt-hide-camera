@@ -2,7 +2,7 @@ Hooks.on("ready", () => {
     // Получаем значение из настроек модуля
     const playersIDsToHide = game.settings.get("fvtt-hide-camera", "playerUUIDs");
 
-    // Функция для открепления и скрытия камеры указанного пользователя
+    // Функция для скрытия камеры указанного пользователя
     function hidePlayerCamera() {
         if (!playersIDsToHide) return; // Если имя не указано, ничего не делать
 
@@ -14,15 +14,6 @@ Hooks.on("ready", () => {
                 // Ищем элементы видео пользователя
                 const cameraElement = document.querySelector(`.camera-view[data-user="${user.id}"]`);
                 if (cameraElement) {
-                    // Открепляем камеру, если она не откреплена
-                    const popoutButton = cameraElement.querySelector('.av-control.toggle[data-action="toggle-popout"]');
-                    if (popoutButton) {
-                        // Проверяем, откреплена ли камера
-                        if (!cameraElement.classList.contains('popout')) {
-                            popoutButton.click(); // Эмулируем клик по кнопке "отделить в окно"
-                        }
-                    }
-
                     // Применяем стиль, чтобы скрыть элемент
                     cameraElement.style.display = "none";
                 }
