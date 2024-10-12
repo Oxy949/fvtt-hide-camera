@@ -2,30 +2,35 @@ Hooks.on("ready", () => {
     // Получаем значение из настроек модуля
     const playersIDsToHide = game.settings.get("fvtt-hide-camera", "playerUUIDs");
 
-    // Функция для скрытия камеры указанного пользователя
+    // Функция для открепления и скрытия камеры указанного пользователя
     function hidePlayerCamera() {
         if (!playersIDsToHide) return; // Если имя не указано, ничего не делать
 
         const playersUUIDsArray = playersIDsToHide.split(',').map(name => name.trim());
 
-        // Ищем всех пользователей
-        game.users.forEach(user => {
-            if (playersUUIDsArray.includes(user.uuid)) {
-                // Ищем элементы видео пользователя
-                const cameraElement = document.querySelector(`.camera-view[data-user="${user.id}"]`);
-                if (cameraElement) {
-                    // Применяем стиль, чтобы скрыть элемент
-                    cameraElement.style.display = "none";
-
-                    const popoutButton = cameraElement.querySelector('.av-control.toggle[data-action="toggle-popout"]');
-                    if (popoutButton) {
-                        if (!cameraElement.classList.contains('camera-box-popout')) {
-                            popoutButton.click(); // Эмулируем клик по кнопке "отделить в окно"
+        // Добавляем задержку перед выполнением, чтобы дать время на загрузку элементов
+        setTimeout(() => {
+            // Ищем всех пользователей
+            game.users.forEach(user => {
+                if (playersUUIDsArray.includes(user.uuid)) {
+                    // Ищем элементы видео пользователя
+                    const cameraElement = document.querySelector(`.camera-view[data-user="${user.id}"]`);
+                    if (cameraElement) {
+                        // Открепляем камеру, если она не откреплена
+                        const popoutButton = cameraElement.querySelector('.av-control.toggle[data-action="toggle-popout"]');
+                        if (popoutButton) {
+                            // Проверяем, откреплена ли камера
+                            if (!cameraElement.classList.contains('camera-box-popout')) {
+                                popoutButton.click(); // Эмулируем клик по кнопке "отделить в окно"
+                            }
                         }
+
+                        // Применяем стиль, чтобы скрыть элемент
+                        cameraElement.style.display = "none";
                     }
                 }
-            }
-        });
+            });
+        }, 500); // Задержка в 500 миллисекунд
     }
 
     // Запускаем проверку при загрузке страницы
